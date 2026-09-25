@@ -45,7 +45,7 @@ export const Settings = () => {
     }
   };
 
-  const inputCls = `flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-xs font-medium font-mono focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-white/30 text-white`;
+  const inputCls = `flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-xs font-medium font-mono focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-purple-400/40'} placeholder:text-white/30 text-white`;
 
   return (
     <div className="space-y-6 text-white">
@@ -60,7 +60,7 @@ export const Settings = () => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest">AI Provider Key</h3>
-              <span className="text-[11px] font-semibold text-lime-400 bg-lime-400/10 px-2 py-0.5 rounded-full">Groq Cloud</span>
+              <span className="text-[11px] font-semibold text-purple-300 bg-purple-500/15 border border-purple-500/20 px-2 py-0.5 rounded-full">Groq Cloud</span>
             </div>
             <p className="text-sm font-semibold">Groq API Key (Llama 3.3 & Whisper)</p>
             <p className="text-xs text-white/40 mt-1">Get your free key at console.groq.com. Enables voice recognition and AI financial insights.</p>
@@ -72,7 +72,7 @@ export const Settings = () => {
                 placeholder="gsk_..." className={inputCls} />
               <button onClick={() => setShowKey(!showKey)} className="p-2 text-white/40 hover:text-white">{showKey ? <EyeOff size={16} /> : <Eye size={16} />}</button>
             </div>
-            <button onClick={handleSaveKey} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400' : 'from-lime-400 to-lime-300'} ${negative ? 'text-white' : 'text-black'} py-2.5 rounded-xl text-xs font-semibold hover:opacity-95 transition-opacity`}>Save Key</button>
+            <button onClick={handleSaveKey} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400' : 'from-[#5f259f] to-[#7c3aed] hover:from-[#501f86] hover:to-[#6d28d9]'} text-white py-2.5 rounded-xl text-xs font-semibold shadow-md shadow-purple-950/20 hover:opacity-95 transition-all`}>Save Key</button>
           </div>
         </section>
 
@@ -98,7 +98,7 @@ export const Settings = () => {
                 <p className="font-bold text-sm truncate">{session?.user?.name || 'Connected User'}</p>
                 <p className="text-xs text-white/40 truncate">{session?.user?.email || 'Signed in'}</p>
               </div>
-              <div className={`w-3 h-3 rounded-full ${negative ? 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.65)]' : 'bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.65)]'}`} />
+              <div className={`w-3 h-3 rounded-full ${negative ? 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.65)]' : 'bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.65)]'}`} />
             </div>
           </div>
           <button
@@ -114,7 +114,7 @@ export const Settings = () => {
           <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Display & Theme</h3>
           <div className="w-full py-2 flex items-center justify-between font-medium text-sm">
             <span className="flex items-center gap-3 text-white/80"><Moon size={18} />Appearance</span>
-            <span className="text-xs text-white/40 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">{isDark ? 'Dark (locked)' : 'Dark (locked)'}</span>
+            <span className="text-xs text-purple-300 bg-purple-500/15 border border-purple-500/20 px-2.5 py-1 rounded-full">PhonePe Dark</span>
           </div>
         </section>
 
@@ -134,9 +134,9 @@ export const Settings = () => {
               <span className="flex items-center gap-2.5"><Download size={15} />Investments</span>
               <span className="text-[11px] text-white/40 bg-white/5 px-2 py-0.5 rounded">CSV</span>
             </button>
-            <button onClick={() => handleExport('all')} className="w-full py-2.5 flex items-center justify-between font-semibold text-xs text-lime-300 hover:text-lime-200 transition-colors">
+            <button onClick={() => handleExport('all')} className="w-full py-2.5 flex items-center justify-between font-semibold text-xs text-purple-300 hover:text-purple-200 transition-colors">
               <span className="flex items-center gap-2.5"><Download size={15} />Export All Datasets</span>
-              <span className="text-[11px] text-lime-400 bg-lime-400/10 px-2 py-0.5 rounded">CSV</span>
+              <span className="text-[11px] text-purple-300 bg-purple-500/15 border border-purple-500/20 px-2 py-0.5 rounded">CSV</span>
             </button>
           </div>
         </section>

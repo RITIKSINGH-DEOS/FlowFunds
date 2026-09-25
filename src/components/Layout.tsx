@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { Home, Plus, Users, Settings, Target, TrendingUp, X, LogOut, Sparkles } from 'lucide-react';
+import { Home, Plus, Users, Settings, Target, TrendingUp, X, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTone } from './ToneProvider';
 
@@ -18,20 +18,20 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const isMoreActive = ['/investments', '/settings'].some(p => pathname === p);
 
   return (
-    <div className={cn("min-h-screen flex flex-col bg-[#070b12] text-white", negative ? "selection:bg-red-500/30" : "selection:bg-lime-300/30")}>
+    <div className={cn("min-h-screen flex flex-col bg-[#0b071a] text-white", negative ? "selection:bg-red-500/30" : "selection:bg-purple-500/30")}>
       {/* Desktop Top Navigation Bar */}
-      <header className="hidden md:flex items-center justify-between px-6 lg:px-12 h-16 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-40">
+      <header className="hidden md:flex items-center justify-between px-6 lg:px-12 h-16 border-b border-purple-500/15 bg-[#0e0924]/85 backdrop-blur-xl sticky top-0 z-40">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 font-extrabold text-xl tracking-tight hover:opacity-90 transition-opacity">
             <span className={cn(
-              "w-3.5 h-3.5 rounded-full transition-shadow",
+              "w-4 h-4 rounded-full transition-shadow",
               negative
                 ? "bg-red-500 shadow-[0_0_14px_rgba(239,68,68,0.85)]"
-                : "bg-lime-400 shadow-[0_0_14px_rgba(163,230,53,0.85)]"
+                : "bg-gradient-to-tr from-[#5f259f] to-[#a855f7] shadow-[0_0_14px_rgba(168,85,247,0.85)]"
             )} />
-            <span className="bg-gradient-to-r from-white via-white/95 to-white/70 bg-clip-text text-transparent">FlowFunds</span>
+            <span className="bg-gradient-to-r from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">FlowFunds</span>
           </Link>
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-1.5">
             <DesktopNavLink href="/" active={isActive('/')} label="Home" icon={<Home size={16} />} negative={negative} />
             <DesktopNavLink href="/debts" active={isActive('/debts')} label="Debts" icon={<Users size={16} />} negative={negative} />
             <DesktopNavLink href="/budgets" active={isActive('/budgets')} label="Budgets" icon={<Target size={16} />} negative={negative} />
@@ -47,7 +47,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               "flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold transition-all active:scale-95 shadow-md",
               negative
                 ? "bg-gradient-to-r from-red-500 to-red-400 text-white hover:from-red-400 hover:to-red-300 shadow-red-950/30"
-                : "bg-gradient-to-r from-lime-400 to-lime-300 text-black hover:from-lime-300 hover:to-lime-200 shadow-lime-950/20"
+                : "bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white hover:from-[#6d2cc0] hover:to-[#8b5cf6] shadow-purple-950/40"
             )}
           >
             <Plus size={16} strokeWidth={2.5} />
@@ -100,8 +100,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Bottom navigation (Mobile only) */}
       <nav className={cn(
-        "md:hidden fixed bottom-0 left-0 right-0 w-full bg-slate-950/85 backdrop-blur-2xl border-t flex justify-around items-center h-14 px-6 pb-safe z-30",
-        negative ? "border-red-500/30" : "border-lime-300/20"
+        "md:hidden fixed bottom-0 left-0 right-0 w-full bg-[#0e0924]/90 backdrop-blur-2xl border-t flex justify-around items-center h-14 px-6 pb-safe z-30",
+        negative ? "border-red-500/30" : "border-purple-500/20"
       )}>
         <NavItem icon={<Home strokeWidth={1.5} />} label="Home" active={isActive('/')} href="/" />
         <NavItem icon={<Users strokeWidth={1.5} />} label="Debts" active={isActive('/debts')} href="/debts" />
@@ -113,10 +113,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               isActive('/add')
                 ? (negative
                   ? "bg-gradient-to-br from-red-500 to-red-400 text-white scale-110 shadow-xl shadow-red-900/28"
-                  : "bg-gradient-to-br from-lime-400 to-lime-300 text-black scale-110 shadow-xl shadow-lime-900/30")
+                  : "bg-gradient-to-br from-[#5f259f] to-[#7c3aed] text-white scale-110 shadow-xl shadow-purple-900/40")
                 : (negative
                   ? "bg-gradient-to-br from-red-500 to-red-400 text-white hover:scale-105 shadow-lg shadow-red-900/20"
-                  : "bg-gradient-to-br from-lime-400 to-lime-300 text-black hover:scale-105 shadow-lg shadow-lime-900/20")
+                  : "bg-gradient-to-br from-[#5f259f] to-[#7c3aed] text-white hover:scale-105 shadow-lg shadow-purple-900/30")
             )}
           >
             <Plus size={26} strokeWidth={2.5} />
@@ -128,7 +128,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           onClick={() => setShowMenu(true)}
           className={cn(
             "flex flex-col items-center justify-center w-16 h-full gap-1 transition-all duration-200",
-            isMoreActive ? (negative ? "text-red-400" : "text-lime-300") : "text-white/40"
+            isMoreActive ? (negative ? "text-red-400" : "text-purple-300") : "text-white/40"
           )}
         >
           <div className="w-6 h-6 flex flex-col justify-center items-center gap-[3px]">
@@ -164,7 +164,7 @@ const DesktopNavLink = ({
         active
           ? negative
             ? "bg-red-500/20 text-red-300 shadow-sm"
-            : "bg-lime-300/15 text-lime-300 shadow-sm"
+            : "bg-purple-500/20 text-purple-300 border border-purple-500/25 shadow-sm"
           : "text-white/60 hover:text-white hover:bg-white/5"
       )}
     >
@@ -181,7 +181,7 @@ const NavItem = ({ icon, label, active, href }: { icon: React.ReactNode; label: 
     <Link href={href}
       className={cn(
         "flex flex-col items-center justify-center w-16 h-full gap-1 transition-all duration-200",
-        active ? (negative ? "text-red-400" : "text-lime-300") : "text-white/40"
+        active ? (negative ? "text-red-400" : "text-purple-400") : "text-white/40"
       )}
     >
       <div className="w-6 h-6 flex items-center justify-center">
@@ -200,8 +200,8 @@ const MenuButton = ({ icon, label, href, onClick, active }: { icon: React.ReactN
       className={cn(
         "flex flex-col items-center justify-center p-4 rounded-2xl gap-2 transition-colors",
         active
-          ? (negative ? "bg-red-500/25 text-red-300" : "bg-lime-300/20 text-lime-200")
-          : (negative ? "text-white/70 hover:bg-red-500/12" : "text-white/70 hover:bg-lime-300/10")
+          ? (negative ? "bg-red-500/25 text-red-300" : "bg-purple-500/25 text-purple-200 border border-purple-500/30")
+          : (negative ? "text-white/70 hover:bg-red-500/12" : "text-white/70 hover:bg-purple-500/10")
       )}
     >
       {React.cloneElement(icon as React.ReactElement<{ size?: number }>, { size: 26 })}

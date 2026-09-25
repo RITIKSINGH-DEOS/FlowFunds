@@ -163,7 +163,7 @@ export const AddTransaction = () => {
     }
   };
 
-  const inputCls = `w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-white/30 text-white`;
+  const inputCls = `w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-purple-400/40'} placeholder:text-white/30 text-white`;
 
   return (
     <div className="space-y-6 text-white max-w-2xl mx-auto w-full">
@@ -177,7 +177,7 @@ export const AddTransaction = () => {
         <div className="relative w-28 h-28 flex items-center justify-center">
           {isRecording && <div className="absolute inset-0 bg-red-500/20 rounded-full animate-ping" />}
           <button onClick={toggleRecording} disabled={isProcessing}
-            className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${isRecording ? 'bg-red-500 text-white scale-105' : (negative ? 'bg-gradient-to-br from-red-500 to-red-400 text-white active:scale-90' : 'bg-gradient-to-br from-lime-400 to-lime-300 text-black active:scale-90')} ${isProcessing ? 'opacity-40' : ''}`}>
+            className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${isRecording ? 'bg-red-500 text-white scale-105' : (negative ? 'bg-gradient-to-br from-red-500 to-red-400 text-white active:scale-90' : 'bg-gradient-to-br from-[#5f259f] to-[#7c3aed] text-white shadow-lg shadow-purple-950/50 active:scale-90')} ${isProcessing ? 'opacity-40' : ''}`}>
             {isProcessing ? <Loader2 className="animate-spin" size={28} /> : isRecording ? <div className="w-6 h-6 bg-white rounded-sm" /> : <Mic size={28} strokeWidth={1.5} />}
           </button>
         </div>
@@ -191,26 +191,26 @@ export const AddTransaction = () => {
           {/* Text input */}
           <form onSubmit={handleTextSubmit} className="relative">
             <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Type natural language..." disabled={isProcessing || isRecording}
-              className={`w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-2xl py-3.5 pl-4 pr-12 text-[14px] font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} disabled:opacity-40 placeholder:text-black/30 dark:placeholder:text-white/30`} />
-            <button type="submit" disabled={!text.trim() || isProcessing} className={`absolute right-2 top-2 bottom-2 bg-gradient-to-r ${negative ? 'from-red-500 to-red-400 text-white' : 'from-lime-400 to-lime-300 text-black'} px-3 rounded-xl disabled:opacity-20 transition-opacity`}><Send size={16} /></button>
+              className={`w-full bg-white/[0.06] rounded-2xl py-3.5 pl-4 pr-12 text-[14px] font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-purple-400/40'} disabled:opacity-40 placeholder:text-white/30 text-white`} />
+            <button type="submit" disabled={!text.trim() || isProcessing} className={`absolute right-2 top-2 bottom-2 bg-gradient-to-r ${negative ? 'from-red-500 to-red-400 text-white' : 'from-[#5f259f] to-[#7c3aed] text-white shadow-md shadow-purple-950/30'} px-3 rounded-xl disabled:opacity-20 transition-opacity`}><Send size={16} /></button>
           </form>
 
           {/* Manual toggle */}
-          <button onClick={() => setShowManual(!showManual)} className="w-full flex items-center justify-center gap-1.5 text-[12px] font-semibold text-black/40 dark:text-white/40 py-2">
+          <button onClick={() => setShowManual(!showManual)} className="w-full flex items-center justify-center gap-1.5 text-[12px] font-semibold text-white/50 hover:text-white py-2">
             {showManual ? <ChevronUp size={15} /> : <ChevronDown size={15} />}Manual Entry
           </button>
 
           {showManual && (
-            <form onSubmit={handleManualSubmit} className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-4">
-              <div className="flex gap-1 p-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xl">
+            <form onSubmit={handleManualSubmit} className="glass-card p-5 rounded-2xl border border-white/10 shadow-sm space-y-4">
+              <div className="flex gap-1 p-1 bg-white/[0.06] rounded-xl">
                 {['Expense', 'Income', 'Transfer'].map(t => (
-                  <button key={t} type="button" onClick={() => setType(t)} className={`flex-1 py-2 rounded-lg text-[12px] font-semibold transition-all ${type === t ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-lime-300 text-black shadow-sm') : 'text-black/40 dark:text-white/40'}`}>{t}</button>
+                  <button key={t} type="button" onClick={() => setType(t)} className={`flex-1 py-2 rounded-lg text-[12px] font-semibold transition-all ${type === t ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm') : 'text-white/50 hover:text-white'}`}>{t}</button>
                 ))}
               </div>
               <input type="number" placeholder="Amount (₹)" value={amount} onChange={e => setAmount(e.target.value)} className={inputCls} required />
               <input type="date" value={date} onChange={e => setDate(e.target.value)} className={inputCls} />
               <select value={category} onChange={e => setCategory(e.target.value)} className={`${inputCls} appearance-none select-styled`}>
-                {['Food', 'Travel', 'Entertainment', 'Bills', 'EMI', 'Shopping', 'Salary', 'Other'].map(c => <option key={c} value={c}>{c}</option>)}
+                {['Food', 'Travel', 'Entertainment', 'Bills', 'EMI', 'Shopping', 'Salary', 'Other'].map(c => <option key={c} value={c} className="bg-slate-900 text-white">{c}</option>)}
               </select>
               <input type="text" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className={inputCls} />
 
@@ -223,7 +223,7 @@ export const AddTransaction = () => {
                   {isUploading && <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center"><Loader2 className="animate-spin text-white" size={20} /></div>}
                 </div>
               ) : (
-                <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full py-3 border border-dashed border-black/10 dark:border-white/10 rounded-xl flex items-center justify-center gap-2 text-[12px] font-medium text-black/35 dark:text-white/35">
+                <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full py-3 border border-dashed border-white/15 rounded-xl flex items-center justify-center gap-2 text-[12px] font-medium text-white/40 hover:text-white hover:border-white/30 transition-all">
                   <Camera size={15} />Attach Receipt
                 </button>
               )}
@@ -232,28 +232,28 @@ export const AddTransaction = () => {
               {type === 'Expense' && (
                 <div>
                   <button type="button" onClick={() => { setShowSplit(!showSplit); if (!showSplit && splitPeople.length === 0) addSplitPerson(); }}
-                    className={`w-full py-2.5 rounded-xl flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-all ${showSplit ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-black/[0.04] dark:bg-white/[0.06] text-black/40 dark:text-white/40'}`}>
+                    className={`w-full py-2.5 rounded-xl flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-all ${showSplit ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-white/[0.06] text-white/50 hover:text-white'}`}>
                     <Users size={14} />{showSplit ? 'Splitting this' : 'Split with others'}
                   </button>
                   {showSplit && (
                     <div className="mt-3 space-y-3">
-                      <div className="flex gap-1 p-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-lg">
-                        <button type="button" onClick={() => setSplitMethod('equal')} className={`flex-1 py-1.5 rounded-md text-[11px] font-semibold ${splitMethod === 'equal' ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-lime-300 text-black shadow-sm') : 'text-black/40 dark:text-white/40'}`}>Equal</button>
-                        <button type="button" onClick={() => setSplitMethod('custom')} className={`flex-1 py-1.5 rounded-md text-[11px] font-semibold ${splitMethod === 'custom' ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-lime-300 text-black shadow-sm') : 'text-black/40 dark:text-white/40'}`}>Custom</button>
+                      <div className="flex gap-1 p-1 bg-white/[0.06] rounded-lg">
+                        <button type="button" onClick={() => setSplitMethod('equal')} className={`flex-1 py-1.5 rounded-md text-[11px] font-semibold ${splitMethod === 'equal' ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm') : 'text-white/50 hover:text-white'}`}>Equal</button>
+                        <button type="button" onClick={() => setSplitMethod('custom')} className={`flex-1 py-1.5 rounded-md text-[11px] font-semibold ${splitMethod === 'custom' ? (negative ? 'bg-red-500 text-white shadow-sm' : 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm') : 'text-white/50 hover:text-white'}`}>Custom</button>
                       </div>
                       {splitPeople.map((p, i) => (
                         <div key={i} className="flex gap-2 items-center">
-                          <input type="text" placeholder="Name" value={p.name} onChange={e => updateSplitPerson(i, 'name', e.target.value)} className="flex-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-lg px-3 py-2.5 text-[13px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" />
-                          {splitMethod === 'custom' && <input type="number" placeholder="₹" value={p.amount} onChange={e => updateSplitPerson(i, 'amount', e.target.value)} className="w-20 bg-black/[0.04] dark:bg-white/[0.06] rounded-lg px-3 py-2.5 text-[13px] font-medium focus:outline-none" />}
-                          <button type="button" onClick={() => removeSplitPerson(i)} className="p-1.5 text-black/25 dark:text-white/25 hover:text-red-500"><Trash2 size={14} /></button>
+                          <input type="text" placeholder="Name" value={p.name} onChange={e => updateSplitPerson(i, 'name', e.target.value)} className="flex-1 bg-white/[0.06] rounded-lg px-3 py-2.5 text-[13px] font-medium focus:outline-none placeholder:text-white/25 text-white" />
+                          {splitMethod === 'custom' && <input type="number" placeholder="₹" value={p.amount} onChange={e => updateSplitPerson(i, 'amount', e.target.value)} className="w-20 bg-white/[0.06] rounded-lg px-3 py-2.5 text-[13px] font-medium focus:outline-none text-white" />}
+                          <button type="button" onClick={() => removeSplitPerson(i)} className="p-1.5 text-white/30 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
                         </div>
                       ))}
-                      <button type="button" onClick={addSplitPerson} className="w-full py-2 border border-dashed border-black/10 dark:border-white/10 rounded-lg text-[11px] font-semibold text-black/30 dark:text-white/30 flex items-center justify-center gap-1"><Plus size={12} />Add Person</button>
+                      <button type="button" onClick={addSplitPerson} className="w-full py-2 border border-dashed border-white/15 rounded-lg text-[11px] font-semibold text-white/40 hover:text-white hover:border-white/30 flex items-center justify-center gap-1 transition-all"><Plus size={12} />Add Person</button>
                       {amount && splitPeople.some(p => p.name.trim()) && (
-                        <div className="bg-blue-500/[0.05] p-3.5 rounded-xl space-y-1.5">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-black/35 dark:text-white/35">Split Summary</p>
-                          <div className="flex justify-between text-[13px]"><span className="font-medium">Your share</span><span className="font-bold">₹{getMyShare().toLocaleString()}</span></div>
-                          {getSplitAmounts().map((s, i) => <div key={i} className="flex justify-between text-[12px]"><span className="text-black/50 dark:text-white/50">{s.name} owes</span><span className="font-semibold text-green-600 dark:text-green-400">₹{s.amount.toLocaleString()}</span></div>)}
+                        <div className="bg-purple-500/10 border border-purple-500/20 p-3.5 rounded-xl space-y-1.5">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-purple-300">Split Summary</p>
+                          <div className="flex justify-between text-[13px]"><span className="font-medium">Your share</span><span className="font-bold text-white">₹{getMyShare().toLocaleString()}</span></div>
+                          {getSplitAmounts().map((s, i) => <div key={i} className="flex justify-between text-[12px]"><span className="text-white/60">{s.name} owes</span><span className="font-semibold text-purple-300">₹{s.amount.toLocaleString()}</span></div>)}
                         </div>
                       )}
                     </div>
@@ -261,7 +261,7 @@ export const AddTransaction = () => {
                 </div>
               )}
 
-              <button type="submit" disabled={isProcessing || isUploading} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400 text-white' : 'from-lime-400 to-lime-300 text-black'} py-3.5 rounded-xl font-semibold text-[14px] disabled:opacity-30`}>
+              <button type="submit" disabled={isProcessing || isUploading} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400 text-white' : 'from-[#5f259f] to-[#7c3aed] hover:from-[#501f86] hover:to-[#6d28d9] text-white shadow-md shadow-purple-950/30'} py-3.5 rounded-xl font-semibold text-[14px] disabled:opacity-30 transition-all`}>
                 {isProcessing || isUploading ? 'Saving...' : showSplit && splitPeople.length > 0 ? `Split — ₹${getMyShare().toLocaleString()} your share` : 'Save'}
               </button>
             </form>

@@ -10,13 +10,13 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #070b12;
+  background: #0b071a;
   color: #f5f7ff;
   min-height: 100vh;
 }
 
 .dark body, .dark {
-  background: #070b12;
+  background: #0b071a;
   color: #f5f7ff;
 }
 
@@ -56,8 +56,8 @@ select.select-styled {
 * { -webkit-tap-highlight-color: transparent; }
 
 .glass-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.35);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(95, 37, 159, 0.09));
+  border: 1px solid rgba(139, 92, 246, 0.16);
+  box-shadow: 0 16px 40px rgba(11, 7, 26, 0.45);
   backdrop-filter: blur(16px);
 }

@@ -53,7 +53,7 @@ export const Investments = () => {
         </div>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95 shadow-sm w-fit"
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#5f259f] to-[#7c3aed] hover:from-[#501f86] hover:to-[#6d28d9] text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md shadow-purple-950/20 w-fit"
         >
           {showAdd ? <X size={15} /> : <Plus size={15} />}{showAdd ? 'Cancel' : 'Add Investment'}
         </button>
@@ -95,7 +95,7 @@ export const Investments = () => {
             <input type="number" placeholder="Amount invested (₹)" value={investedAmount} onChange={e => setInvestedAmount(e.target.value)} className={inputCls} required />
             <input type="number" placeholder="Current value (₹) — optional" value={currentValue} onChange={e => setCurrentValue(e.target.value)} className={inputCls} />
           </div>
-          <button type="submit" className="w-full bg-white text-black py-3 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">Save Investment</button>
+          <button type="submit" className="w-full bg-gradient-to-r from-[#5f259f] to-[#7c3aed] hover:from-[#501f86] hover:to-[#6d28d9] text-white py-3 rounded-xl font-semibold text-sm shadow-md shadow-purple-950/30 transition-all">Save Investment</button>
         </form>
       )}
 

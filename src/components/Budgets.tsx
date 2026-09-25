@@ -63,7 +63,7 @@ export const Budgets = () => {
         </div>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95 shadow-sm w-fit"
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white font-semibold text-xs flex items-center justify-center gap-2 hover:from-[#501f86] hover:to-[#6d28d9] transition-all active:scale-95 shadow-md shadow-purple-950/20 w-fit"
         >
           {showAdd ? <X size={15} /> : <Plus size={15} />}{showAdd ? 'Cancel' : 'Set Category Budget'}
         </button>
@@ -74,16 +74,16 @@ export const Budgets = () => {
         {/* Total Monthly Budget */}
         <div className="glass-card p-5 sm:p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
           <div className="flex items-center gap-2.5 mb-3">
-            <div className="w-8 h-8 bg-white/[0.06] rounded-lg flex items-center justify-center">
-              <Wallet size={16} className="text-white/70" />
+            <div className="w-8 h-8 bg-purple-500/15 border border-purple-500/20 rounded-lg flex items-center justify-center">
+              <Wallet size={16} className="text-purple-300" />
             </div>
             <span className="text-xs font-bold uppercase tracking-wider text-white/50">Overall Monthly Budget</span>
           </div>
           {editingMonthly ? (
             <div className="flex gap-2">
               <input type="number" value={monthlyLimit} onChange={e => setMonthlyLimit(e.target.value)} placeholder="Total limit (₹)" autoFocus
-                className="flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none placeholder:text-white/30" />
-              <button onClick={handleSaveMonthly} className="px-4 py-2.5 bg-white text-black rounded-xl text-xs font-semibold">Save</button>
+                className="flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none placeholder:text-white/30 text-white" />
+              <button onClick={handleSaveMonthly} className="px-4 py-2.5 bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white rounded-xl text-xs font-semibold">Save</button>
               <button
                 onClick={() => {
                   setMonthlyLimit(localStorage.getItem('monthly_budget') || '');
@@ -101,10 +101,10 @@ export const Budgets = () => {
                   <p className="text-2xl sm:text-3xl font-extrabold tracking-tight">₹{totalSpentAll.toLocaleString()}</p>
                   <p className="text-xs text-white/40 mt-0.5">of ₹{savedMonthly.toLocaleString()} total target limit</p>
                 </div>
-                <button onClick={() => { setMonthlyLimit(String(savedMonthly)); setEditingMonthly(true); }} className="text-xs font-semibold text-white/40 hover:text-white transition-colors">Edit</button>
+                <button onClick={() => { setMonthlyLimit(String(savedMonthly)); setEditingMonthly(true); }} className="text-xs font-semibold text-purple-300 hover:text-purple-200 transition-colors">Edit</button>
               </div>
               <div className="w-full h-2.5 bg-white/[0.06] rounded-full overflow-hidden">
-                <div className={`h-full rounded-full transition-all duration-500 ${totalSpentAll > savedMonthly ? 'bg-red-500' : totalSpentAll > savedMonthly * 0.8 ? 'bg-amber-500' : 'bg-lime-400'}`}
+                <div className={`h-full rounded-full transition-all duration-500 ${totalSpentAll > savedMonthly ? 'bg-red-500' : totalSpentAll > savedMonthly * 0.8 ? 'bg-amber-500' : 'bg-gradient-to-r from-[#5f259f] to-[#8b5cf6]'}`}
                   style={{ width: `${Math.min((totalSpentAll / savedMonthly) * 100, 100)}%` }} />
               </div>
               {totalSpentAll > savedMonthly && <p className="text-xs text-red-400 font-semibold mt-1.5">₹{(totalSpentAll - savedMonthly).toLocaleString()} over budget</p>}
@@ -127,7 +127,7 @@ export const Budgets = () => {
               <p className="text-xs font-medium text-white/40">Allocated: ₹{totalBudget.toLocaleString()}</p>
             </div>
             <div className="w-full h-2.5 bg-white/[0.06] rounded-full overflow-hidden">
-              <div className={`h-full rounded-full transition-all duration-500 ${totalSpent > totalBudget ? 'bg-red-500' : totalSpent > totalBudget * 0.8 ? 'bg-amber-500' : 'bg-lime-400'}`}
+              <div className={`h-full rounded-full transition-all duration-500 ${totalSpent > totalBudget ? 'bg-red-500' : totalSpent > totalBudget * 0.8 ? 'bg-amber-500' : 'bg-gradient-to-r from-[#5f259f] to-[#8b5cf6]'}`}
                 style={{ width: `${totalBudget > 0 ? Math.min((totalSpent / totalBudget) * 100, 100) : 0}%` }} />
             </div>
           </div>
@@ -140,14 +140,14 @@ export const Budgets = () => {
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map(c => (
               <button key={c} type="button" onClick={() => setCategory(c)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${category === c ? 'bg-white text-black' : 'bg-white/[0.06] text-white/50 hover:text-white'}`}>
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${category === c ? 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm' : 'bg-white/[0.06] text-white/50 hover:text-white'}`}>
                 {c}
               </button>
             ))}
           </div>
           <input type="number" placeholder="Monthly limit for category (₹)" value={amount} onChange={e => setAmount(e.target.value)}
-            className="w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none placeholder:text-white/30" required />
-          <button type="submit" className="w-full bg-white text-black py-3 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">Save Category Budget</button>
+            className="w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none placeholder:text-white/30 text-white" required />
+          <button type="submit" className="w-full bg-gradient-to-r from-[#5f259f] to-[#7c3aed] hover:from-[#501f86] hover:to-[#6d28d9] text-white py-3 rounded-xl font-semibold text-sm shadow-md shadow-purple-950/30 transition-all">Save Category Budget</button>
         </form>
       )}
 
@@ -173,14 +173,14 @@ export const Budgets = () => {
                       </div>
                       <p className="text-xs text-white/40 mt-1">₹{spent.toLocaleString()} <span className="text-white/25">/ ₹{b.amount.toLocaleString()}</span></p>
                     </div>
-                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${over ? 'bg-red-500/20 text-red-400 border border-red-500/30' : warn ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-lime-400/20 text-lime-300 border border-lime-400/30'}`}>
+                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${over ? 'bg-red-500/20 text-red-400 border border-red-500/30' : warn ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'}`}>
                       {over ? 'Over Budget' : `${Math.round(pct)}%`}
                     </span>
                   </div>
                 </div>
                 <div className="mt-4">
                   <div className="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-red-500' : warn ? 'bg-amber-500' : 'bg-lime-400'}`} style={{ width: `${Math.min(pct, 100)}%` }} />
+                    <div className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-red-500' : warn ? 'bg-amber-500' : 'bg-gradient-to-r from-[#5f259f] to-[#8b5cf6]'}`} style={{ width: `${Math.min(pct, 100)}%` }} />
                   </div>
                   {over && <p className="text-xs text-red-400 font-semibold mt-1.5">₹{(spent - b.amount).toLocaleString()} exceeded</p>}
                 </div>

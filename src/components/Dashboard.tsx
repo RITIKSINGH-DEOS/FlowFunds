@@ -8,9 +8,9 @@ import { Pencil, Trash2, Search, TrendingUp, TrendingDown, Receipt, Sparkles, Re
 import { useToast } from './Toast';
 
 const CATEGORIES = ['Food', 'Travel', 'Entertainment', 'Bills', 'EMI', 'Shopping', 'Salary', 'Other'];
-const GREEN_CHART_COLORS = ['#bef264', '#a3e635', '#84cc16', '#65a30d', '#4d7c0f', '#3f6212', '#d9f99d', '#ecfccb'];
+const PHONEPE_CHART_COLORS = ['#7c3aed', '#9333ea', '#a855f7', '#6366f1', '#3b82f6', '#06b6d4', '#c084fc', '#d8b4fe'];
 const RED_CHART_COLORS = ['#fda4af', '#fb7185', '#f43f5e', '#e11d48', '#be123c', '#9f1239', '#fecdd3', '#ffe4e6'];
-const TT: React.CSSProperties = { borderRadius: '10px', border: 'none', boxShadow: '0 2px 12px rgba(0,0,0,0.12)', fontSize: '12px', fontWeight: 600, padding: '6px 10px', backgroundColor: '#0f172a', color: '#fff' };
+const TT: React.CSSProperties = { borderRadius: '12px', border: '1px solid rgba(139,92,246,0.25)', boxShadow: '0 8px 24px rgba(11,7,26,0.5)', fontSize: '12px', fontWeight: 600, padding: '8px 12px', backgroundColor: '#130d2d', color: '#fff' };
 
 export const Dashboard = () => {
   const { transactions, debts, budgets, investments, loading, editTransaction, deleteTransaction } = useFinance();
@@ -71,7 +71,7 @@ export const Dashboard = () => {
   const expenseChange = lastMonthExpense > 0 ? ((expense - lastMonthExpense) / lastMonthExpense) * 100 : 0;
   const netBalance = income - expense;
   const isPositive = netBalance >= 0;
-  const chartColors = isPositive ? GREEN_CHART_COLORS : RED_CHART_COLORS;
+  const chartColors = isPositive ? PHONEPE_CHART_COLORS : RED_CHART_COLORS;
   const categoryColors: Record<string, string> = useMemo(
     () => Object.fromEntries(CATEGORIES.map((c, i) => [c, chartColors[i]])),
     [chartColors]
@@ -148,41 +148,41 @@ export const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Overview</h1>
-          <p className="text-xs sm:text-sm text-white/50 mt-1">Real-time balances, analytics, and spending breakdown</p>
+          <p className="text-xs sm:text-sm text-purple-200/60 mt-1">Real-time balances, analytics, and spending breakdown</p>
         </div>
-        <div className="text-xs text-white/40 font-semibold bg-white/5 px-3 py-1.5 rounded-full w-fit border border-white/10">
+        <div className="text-xs text-purple-300 font-semibold bg-purple-500/15 px-3 py-1.5 rounded-full w-fit border border-purple-500/25">
           {format(new Date(), 'MMMM yyyy')}
         </div>
       </div>
 
-      {/* Top Overview: Balance & Side Info */}
+      {/* Top Overview: PhonePe Balance Card & Side Info */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Balance Card */}
         <div
           className={`lg:col-span-2 p-6 rounded-[28px] border flex flex-col justify-between ${
             isPositive
-              ? 'bg-gradient-to-br from-lime-300 to-lime-400 border-lime-200/70 shadow-[0_12px_30px_rgba(132,204,22,0.28)]'
-              : 'bg-red-400 border-red-400 shadow-[0_12px_30px_rgba(239,68,68,0.28)]'
+              ? 'bg-gradient-to-br from-[#441a6f] via-[#5f259f] to-[#7c3aed] border-purple-400/30 shadow-[0_16px_36px_rgba(95,37,159,0.35)]'
+              : 'bg-gradient-to-br from-red-600 via-rose-600 to-red-700 border-red-400 shadow-[0_16px_36px_rgba(239,68,68,0.28)]'
           }`}
         >
-          <div className={`rounded-3xl p-6 border ${isPositive ? 'bg-lime-200/70 border-lime-100/80' : 'bg-red-500 border-red-500'}`}>
+          <div className="rounded-3xl p-6 border bg-white/10 border-white/20 backdrop-blur-md">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold text-black/60 uppercase tracking-wider">Total Net Balance</p>
-              <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isPositive ? 'bg-lime-400/80 text-black' : 'bg-red-700 text-white'}`}>
-                {isPositive ? 'Positive' : 'Deficit'}
+              <p className="text-xs font-bold text-white/80 uppercase tracking-wider">Total Net Balance</p>
+              <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${isPositive ? 'bg-white/20 text-white border border-white/30' : 'bg-red-700 text-white'}`}>
+                {isPositive ? 'Available' : 'Deficit'}
               </span>
             </div>
-            <p className="text-4xl sm:text-5xl font-extrabold tracking-tight mt-2 text-black">₹{netBalance.toLocaleString()}</p>
+            <p className="text-4xl sm:text-5xl font-extrabold tracking-tight mt-2 text-white">₹{netBalance.toLocaleString()}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-black/5">
-              <p className="text-xs font-bold text-black/65 uppercase tracking-wider">Total Income</p>
-              <p className="text-2xl sm:text-3xl font-extrabold text-emerald-950 mt-1">₹{income.toLocaleString()}</p>
+            <div className="bg-black/20 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
+              <p className="text-xs font-bold text-white/70 uppercase tracking-wider">Total Income</p>
+              <p className="text-2xl sm:text-3xl font-extrabold text-emerald-300 mt-1">₹{income.toLocaleString()}</p>
             </div>
-            <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-black/5">
-              <p className="text-xs font-bold text-black/65 uppercase tracking-wider">Total Expense</p>
-              <p className="text-2xl sm:text-3xl font-extrabold text-rose-950 mt-1">₹{expense.toLocaleString()}</p>
+            <div className="bg-black/20 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
+              <p className="text-xs font-bold text-white/70 uppercase tracking-wider">Total Expense</p>
+              <p className="text-2xl sm:text-3xl font-extrabold text-rose-300 mt-1">₹{expense.toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@ export const Dashboard = () => {
           {lastMonthExpense > 0 ? (
             <div className="flex items-center gap-3.5 glass-card p-5 rounded-2xl">
               <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${expenseChange <= 0 ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
-                {expenseChange <= 0 ? <TrendingDown size={20} className="text-green-500" /> : <TrendingUp size={20} className="text-red-500" />}
+                {expenseChange <= 0 ? <TrendingDown size={20} className="text-green-400" /> : <TrendingUp size={20} className="text-red-400" />}
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold leading-tight">{expenseChange <= 0 ? `${Math.abs(Math.round(expenseChange))}% less` : `${Math.round(expenseChange)}% more`} than last month</p>
@@ -202,7 +202,7 @@ export const Dashboard = () => {
             </div>
           ) : (
             <div className="glass-card p-5 rounded-2xl">
-              <p className="text-xs font-bold uppercase tracking-wider text-white/40">Monthly Target</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-purple-300/60">Monthly Target</p>
               <p className="text-sm text-white/70 mt-1 font-medium">Keep track of your current month expenses to unlock monthly comparisons.</p>
             </div>
           )}
@@ -213,7 +213,7 @@ export const Dashboard = () => {
               <div className="flex justify-between items-center mb-3">
                 <div className="flex items-center gap-2">
                   <Sparkles size={16} className="text-amber-400" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/50">AI Insights</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-purple-200/60">AI Insights</span>
                 </div>
                 <button onClick={refreshInsights} disabled={insightsLoading} className="p-1.5 text-white/40 hover:text-white transition-colors">
                   <RefreshCw size={14} className={insightsLoading ? 'animate-spin' : ''} />
@@ -247,14 +247,14 @@ export const Dashboard = () => {
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart><Pie data={categoryData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={4} dataKey="value" stroke="none">
-                  {categoryData.map(e => <Cell key={e.name} fill={categoryColors[e.name] || '#888'} />)}
+                  {categoryData.map(e => <Cell key={e.name} fill={categoryColors[e.name] || '#7c3aed'} />)}
                 </Pie><Tooltip formatter={(v) => `₹${v}`} contentStyle={TT} /></PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4 pt-3 border-t border-white/5">
+            <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4 pt-3 border-t border-purple-500/10">
               {categoryData.map(c => (
-                <div key={c.name} className="flex items-center text-xs font-medium text-white/70">
-                  <span className="w-2.5 h-2.5 rounded-full mr-2" style={{ backgroundColor: categoryColors[c.name] || '#888' }} />
+                <div key={c.name} className="flex items-center text-xs font-medium text-white/80">
+                  <span className="w-2.5 h-2.5 rounded-full mr-2" style={{ backgroundColor: categoryColors[c.name] || '#7c3aed' }} />
                   {c.name} (₹{c.value.toLocaleString()})
                 </div>
               ))}
@@ -273,13 +273,13 @@ export const Dashboard = () => {
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dailyData}>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} dy={8} />
-                <Tooltip cursor={{ fill: 'rgba(255,255,255,0.05)' }} formatter={(v) => `₹${v}`} contentStyle={TT} />
-                <Bar dataKey="amount" fill={isPositive ? '#84cc16' : '#f43f5e'} radius={[6, 6, 0, 0]} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#a855f7' }} dy={8} />
+                <Tooltip cursor={{ fill: 'rgba(124,58,237,0.1)' }} formatter={(v) => `₹${v}`} contentStyle={TT} />
+                <Bar dataKey="amount" fill={isPositive ? '#7c3aed' : '#f43f5e'} radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-xs text-white/40 mt-4 pt-3 border-t border-white/5">Daily expense trend over the past week</p>
+          <p className="text-xs text-purple-200/50 mt-4 pt-3 border-t border-purple-500/10">Daily expense trend over the past week</p>
         </div>
       </div>
 
@@ -289,20 +289,22 @@ export const Dashboard = () => {
           <h3 className="text-base font-bold tracking-tight">Recent Transactions</h3>
           <div className="flex flex-col sm:flex-row gap-2.5 sm:items-center">
             <div className="relative w-full sm:w-64">
-              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" />
+              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-300/40" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search transactions..."
-                className="w-full bg-white/[0.06] rounded-xl py-2 pl-9 pr-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-lime-300/30 placeholder:text-white/30"
+                className="w-full bg-white/[0.06] rounded-xl py-2 pl-9 pr-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder:text-white/30"
               />
             </div>
             <div className="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
               <button
                 onClick={() => setFilterCategory(null)}
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  !filterCategory ? 'bg-white text-black' : 'bg-white/[0.06] text-white/50 hover:text-white'
+                  !filterCategory
+                    ? 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm'
+                    : 'bg-white/[0.06] text-white/50 hover:text-white'
                 }`}
               >
                 All
@@ -312,7 +314,9 @@ export const Dashboard = () => {
                   key={c}
                   onClick={() => setFilterCategory(filterCategory === c ? null : c)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                    filterCategory === c ? 'bg-white text-black' : 'bg-white/[0.06] text-white/50 hover:text-white'
+                    filterCategory === c
+                      ? 'bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white shadow-sm'
+                      : 'bg-white/[0.06] text-white/50 hover:text-white'
                   }`}
                 >
                   {c}
@@ -329,48 +333,48 @@ export const Dashboard = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {paginatedTxs.map(t => (
-              <div key={t._id} className="bg-slate-900/80 rounded-xl border border-white/10 overflow-hidden backdrop-blur-sm hover:border-white/20 transition-colors">
+              <div key={t._id} className="bg-[#120d2a]/80 rounded-xl border border-purple-500/15 overflow-hidden backdrop-blur-sm hover:border-purple-500/30 transition-colors">
                 {editingId === t._id ? (
                   <div className="p-4 space-y-3">
                     <div className="grid grid-cols-2 gap-2">
                       <input type="number" value={editForm.amount ?? ''} onChange={e => setEditForm(f => ({ ...f, amount: Number(e.target.value) }))}
-                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none" placeholder="Amount" />
+                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-purple-400" placeholder="Amount" />
                       <input type="date" value={editForm.date ?? ''} onChange={e => setEditForm(f => ({ ...f, date: e.target.value }))}
-                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none" />
+                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-purple-400" />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       <select value={editForm.type ?? 'Expense'} onChange={e => setEditForm(f => ({ ...f, type: e.target.value }))}
-                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none appearance-none select-styled">
+                        className="bg-[#191138] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none appearance-none select-styled">
                         <option value="Expense">Expense</option><option value="Income">Income</option><option value="Transfer">Transfer</option>
                       </select>
                       <select value={editForm.category ?? 'Other'} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))}
-                        className="bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none appearance-none select-styled">
+                        className="bg-[#191138] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none appearance-none select-styled">
                         {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <input type="text" value={editForm.description ?? ''} onChange={e => setEditForm(f => ({ ...f, description: e.target.value }))}
-                      className="w-full bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none" placeholder="Description" />
+                      className="w-full bg-white/[0.06] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-purple-400" placeholder="Description" />
                     <div className="flex gap-2 justify-end">
                       <button onClick={() => setEditingId(null)} className="px-3 py-1.5 text-xs font-semibold text-white/50 hover:text-white">Cancel</button>
-                      <button onClick={saveEdit} className="px-4 py-1.5 text-xs font-semibold bg-white text-black rounded-lg">Save</button>
+                      <button onClick={saveEdit} className="px-4 py-1.5 text-xs font-semibold bg-gradient-to-r from-[#5f259f] to-[#7c3aed] text-white rounded-lg">Save</button>
                     </div>
                   </div>
                 ) : (
                   <div className="px-4 py-3.5 flex items-center gap-3">
-                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: categoryColors[t.category] || '#888' }} />
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: categoryColors[t.category] || '#7c3aed' }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold truncate">{t.description || t.category}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <p className="text-xs text-white/40">{(() => { try { return format(parseISO(t.date), 'MMM d, yyyy'); } catch { return ''; } })()}</p>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/50 font-medium">{t.category}</span>
-                        {t.receiptUrl && <a href={t.receiptUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300"><Receipt size={12} /></a>}
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 font-medium">{t.category}</span>
+                        {t.receiptUrl && <a href={t.receiptUrl} target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300"><Receipt size={12} /></a>}
                       </div>
                     </div>
                     <span className={`text-base font-bold tabular-nums shrink-0 ${t.type === 'Income' ? 'text-green-400' : t.type === 'Expense' ? 'text-red-400' : 'text-white'}`}>
                       {t.type === 'Income' ? '+' : t.type === 'Expense' ? '-' : ''}₹{(Number(t.amount) || 0).toLocaleString()}
                     </span>
                     <div className="flex shrink-0 ml-1">
-                      <button onClick={() => startEdit(t)} className="p-2 text-white/30 hover:text-white transition-colors"><Pencil size={15} /></button>
+                      <button onClick={() => startEdit(t)} className="p-2 text-white/30 hover:text-purple-300 transition-colors"><Pencil size={15} /></button>
                       <button onClick={() => handleDelete(t._id)} className="p-2 text-white/30 hover:text-red-400 transition-colors"><Trash2 size={15} /></button>
                     </div>
                   </div>
@@ -381,12 +385,12 @@ export const Dashboard = () => {
         )}
 
         {txTotalPages > 1 && (
-          <div className="flex items-center justify-between pt-4 border-t border-white/5">
+          <div className="flex items-center justify-between pt-4 border-t border-purple-500/10">
             <button onClick={() => setTxPage(p => Math.max(1, p - 1))} disabled={txPage === 1}
-              className="p-2 rounded-lg bg-white/[0.06] hover:bg-white/10 disabled:opacity-30 transition-all"><ChevronLeft size={16} /></button>
-            <span className="text-xs font-semibold text-white/50">{txPage} of {txTotalPages}</span>
+              className="p-2 rounded-lg bg-white/[0.06] hover:bg-purple-500/20 disabled:opacity-30 transition-all"><ChevronLeft size={16} /></button>
+            <span className="text-xs font-semibold text-purple-200/60">{txPage} of {txTotalPages}</span>
             <button onClick={() => setTxPage(p => Math.min(txTotalPages, p + 1))} disabled={txPage === txTotalPages}
-              className="p-2 rounded-lg bg-white/[0.06] hover:bg-white/10 disabled:opacity-30 transition-all"><ChevronRight size={16} /></button>
+              className="p-2 rounded-lg bg-white/[0.06] hover:bg-purple-500/20 disabled:opacity-30 transition-all"><ChevronRight size={16} /></button>
           </div>
         )}
       </div>
