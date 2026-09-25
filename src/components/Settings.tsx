@@ -45,99 +45,102 @@ export const Settings = () => {
     }
   };
 
-  const inputCls = `flex-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] font-medium font-mono focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-black/25 dark:placeholder:text-white/25`;
+  const inputCls = `flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-xs font-medium font-mono focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-white/30 text-white`;
 
   return (
-    <div className="px-5 pt-12 pb-4 space-y-5">
+    <div className="space-y-6 text-white">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-[12px] font-medium text-black/40 dark:text-white/40 mt-0.5">Preferences and data</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Settings & Preferences</h1>
+        <p className="text-xs sm:text-sm text-white/50 mt-1">Manage AI keys, accounts, appearance, and data export</p>
       </div>
 
-      {/* AI Provider */}
-      <section>
-        <h3 className="text-[10px] font-bold text-black/35 dark:text-white/35 uppercase tracking-widest mb-2.5 ml-1">AI Provider</h3>
-        <div className={`bg-white dark:bg-neutral-900 rounded-2xl border ${negative ? 'border-red-500/25' : 'border-lime-300/20'} shadow-sm p-4 space-y-4`}>
-          <p className="text-[13px] font-semibold">Groq</p>
-          <p className="text-[11px] text-black/40 dark:text-white/40">Free key: console.groq.com — Llama 3.3 + Whisper</p>
-          <div className="flex items-center gap-2">
-            <Key size={14} className="text-black/30 dark:text-white/30 shrink-0" />
-            <input type={showKey ? 'text' : 'password'} value={groqKey} onChange={e => setGroqKey(e.target.value)}
-              placeholder="Groq API key" className={inputCls} />
-            <button onClick={() => setShowKey(!showKey)} className="p-2 text-black/30 dark:text-white/30">{showKey ? <EyeOff size={15} /> : <Eye size={15} />}</button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* AI Provider */}
+        <section className="glass-card rounded-2xl border border-white/10 p-6 space-y-4 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest">AI Provider Key</h3>
+              <span className="text-[11px] font-semibold text-lime-400 bg-lime-400/10 px-2 py-0.5 rounded-full">Groq Cloud</span>
+            </div>
+            <p className="text-sm font-semibold">Groq API Key (Llama 3.3 & Whisper)</p>
+            <p className="text-xs text-white/40 mt-1">Get your free key at console.groq.com. Enables voice recognition and AI financial insights.</p>
           </div>
-          <button onClick={handleSaveKey} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400' : 'from-lime-400 to-lime-300'} ${negative ? 'text-white' : 'text-black'} py-2.5 rounded-xl text-[13px] font-semibold`}>Save Key</button>
-        </div>
-      </section>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Key size={16} className="text-white/30 shrink-0" />
+              <input type={showKey ? 'text' : 'password'} value={groqKey} onChange={e => setGroqKey(e.target.value)}
+                placeholder="gsk_..." className={inputCls} />
+              <button onClick={() => setShowKey(!showKey)} className="p-2 text-white/40 hover:text-white">{showKey ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+            </div>
+            <button onClick={handleSaveKey} className={`w-full bg-gradient-to-r ${negative ? 'from-red-500 to-red-400' : 'from-lime-400 to-lime-300'} ${negative ? 'text-white' : 'text-black'} py-2.5 rounded-xl text-xs font-semibold hover:opacity-95 transition-opacity`}>Save Key</button>
+          </div>
+        </section>
 
-      {/* Account */}
-      <section>
-        <h3 className="text-[10px] font-bold text-black/35 dark:text-white/35 uppercase tracking-widest mb-2.5 ml-1">Account</h3>
-        <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm overflow-hidden">
-          <div className="p-4 space-y-3">
+        {/* Account */}
+        <section className="glass-card rounded-2xl border border-white/10 p-6 space-y-4 flex flex-col justify-between">
+          <div>
+            <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Signed In User</h3>
             <div className="flex items-center gap-3">
               {session?.user?.image && !avatarError ? (
                 <img
                   src={session.user.image}
                   alt={session?.user?.name || 'User avatar'}
-                  className="w-10 h-10 rounded-full object-cover border border-black/10 dark:border-white/15"
+                  className="w-12 h-12 rounded-full object-cover border border-white/15"
                   referrerPolicy="no-referrer"
                   onError={() => setAvatarError(true)}
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center">
-                  <User size={18} className="text-black/40 dark:text-white/40" />
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                  <User size={22} className="text-white/60" />
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-[14px] truncate">Google Account</p>
-                <p className="text-[11px] text-black/40 dark:text-white/40 truncate">Signed in securely</p>
+                <p className="font-bold text-sm truncate">{session?.user?.name || 'Connected User'}</p>
+                <p className="text-xs text-white/40 truncate">{session?.user?.email || 'Signed in'}</p>
               </div>
-              <div className={`w-2.5 h-2.5 rounded-full ${negative ? 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.65)]' : 'bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.65)]'}`} />
+              <div className={`w-3 h-3 rounded-full ${negative ? 'bg-red-400 shadow-[0_0_10px_rgba(248,113,113,0.65)]' : 'bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.65)]'}`} />
             </div>
-            <button
-              onClick={() => signOut({ callbackUrl: '/login' })}
-              className="w-full py-3 bg-black/[0.04] dark:bg-white/[0.06] rounded-xl text-[13px] font-semibold flex justify-center items-center gap-2 text-red-500"
-            >
-              <LogOut size={15} />Sign Out
+          </div>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="w-full py-2.5 bg-red-500/10 hover:bg-red-500/15 border border-red-500/20 rounded-xl text-xs font-semibold flex justify-center items-center gap-2 text-red-400 transition-colors"
+          >
+            <LogOut size={15} />Sign Out of Account
+          </button>
+        </section>
+
+        {/* Preferences */}
+        <section className="glass-card rounded-2xl border border-white/10 p-6 space-y-3">
+          <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Display & Theme</h3>
+          <div className="w-full py-2 flex items-center justify-between font-medium text-sm">
+            <span className="flex items-center gap-3 text-white/80"><Moon size={18} />Appearance</span>
+            <span className="text-xs text-white/40 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">{isDark ? 'Dark (locked)' : 'Dark (locked)'}</span>
+          </div>
+        </section>
+
+        {/* Export Data */}
+        <section className="glass-card rounded-2xl border border-white/10 p-6 space-y-3">
+          <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Export Data</h3>
+          <div className="divide-y divide-white/5">
+            <button onClick={() => handleExport('csv')} className="w-full py-2.5 flex items-center justify-between font-medium text-xs text-white/80 hover:text-white transition-colors">
+              <span className="flex items-center gap-2.5"><Download size={15} />Transactions</span>
+              <span className="text-[11px] text-white/40 bg-white/5 px-2 py-0.5 rounded">CSV</span>
+            </button>
+            <button onClick={() => handleExport('debts')} className="w-full py-2.5 flex items-center justify-between font-medium text-xs text-white/80 hover:text-white transition-colors">
+              <span className="flex items-center gap-2.5"><Download size={15} />Debts</span>
+              <span className="text-[11px] text-white/40 bg-white/5 px-2 py-0.5 rounded">CSV</span>
+            </button>
+            <button onClick={() => handleExport('investments')} className="w-full py-2.5 flex items-center justify-between font-medium text-xs text-white/80 hover:text-white transition-colors">
+              <span className="flex items-center gap-2.5"><Download size={15} />Investments</span>
+              <span className="text-[11px] text-white/40 bg-white/5 px-2 py-0.5 rounded">CSV</span>
+            </button>
+            <button onClick={() => handleExport('all')} className="w-full py-2.5 flex items-center justify-between font-semibold text-xs text-lime-300 hover:text-lime-200 transition-colors">
+              <span className="flex items-center gap-2.5"><Download size={15} />Export All Datasets</span>
+              <span className="text-[11px] text-lime-400 bg-lime-400/10 px-2 py-0.5 rounded">CSV</span>
             </button>
           </div>
-        </div>
-      </section>
-
-      {/* Preferences */}
-      <section>
-        <h3 className="text-[10px] font-bold text-black/35 dark:text-white/35 uppercase tracking-widest mb-2.5 ml-1">Preferences</h3>
-        <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm overflow-hidden">
-          <div className="w-full px-4 py-3.5 flex items-center justify-between font-medium text-[14px]">
-            <span className="flex items-center gap-3"><Moon size={17} />Appearance</span>
-            <span className="text-[12px] text-black/35 dark:text-white/35">{isDark ? 'Dark (locked)' : 'Dark (locked)'}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Data */}
-      <section>
-        <h3 className="text-[10px] font-bold text-black/35 dark:text-white/35 uppercase tracking-widest mb-2.5 ml-1">Export Data</h3>
-        <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm overflow-hidden divide-y divide-black/[0.04] dark:divide-white/[0.06]">
-          <button onClick={() => handleExport('csv')} className="w-full px-4 py-3.5 flex items-center justify-between font-medium text-[14px]">
-            <span className="flex items-center gap-3"><Download size={17} />Transactions</span>
-            <span className="text-[11px] text-black/35 dark:text-white/35">CSV</span>
-          </button>
-          <button onClick={() => handleExport('debts')} className="w-full px-4 py-3.5 flex items-center justify-between font-medium text-[14px]">
-            <span className="flex items-center gap-3"><Download size={17} />Debts</span>
-            <span className="text-[11px] text-black/35 dark:text-white/35">CSV</span>
-          </button>
-          <button onClick={() => handleExport('investments')} className="w-full px-4 py-3.5 flex items-center justify-between font-medium text-[14px]">
-            <span className="flex items-center gap-3"><Download size={17} />Investments</span>
-            <span className="text-[11px] text-black/35 dark:text-white/35">CSV</span>
-          </button>
-          <button onClick={() => handleExport('all')} className="w-full px-4 py-3.5 flex items-center justify-between font-semibold text-[14px]">
-            <span className="flex items-center gap-3"><Download size={17} />All Data</span>
-            <span className="text-[11px] text-black/35 dark:text-white/35">CSV</span>
-          </button>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 };

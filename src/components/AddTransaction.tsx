@@ -163,13 +163,16 @@ export const AddTransaction = () => {
     }
   };
 
-  const inputCls = `w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-black/25 dark:placeholder:text-white/25`;
+  const inputCls = `w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 ${negative ? 'focus:ring-red-500/35' : 'focus:ring-lime-300/30'} placeholder:text-white/30 text-white`;
 
   return (
-    <div className="px-5 pt-12 pb-4 h-full flex flex-col overflow-y-auto">
-      <h2 className="text-2xl font-bold tracking-tight mb-6">New Entry</h2>
+    <div className="space-y-6 text-white max-w-2xl mx-auto w-full">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Add Transaction</h1>
+        <p className="text-xs sm:text-sm text-white/50 mt-1">Speak naturally, type with AI, or enter details manually</p>
+      </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center space-y-6">
+      <div className="glass-card p-6 sm:p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center space-y-6">
         {/* Mic button */}
         <div className="relative w-28 h-28 flex items-center justify-center">
           {isRecording && <div className="absolute inset-0 bg-red-500/20 rounded-full animate-ping" />}
@@ -178,12 +181,12 @@ export const AddTransaction = () => {
             {isProcessing ? <Loader2 className="animate-spin" size={28} /> : isRecording ? <div className="w-6 h-6 bg-white rounded-sm" /> : <Mic size={28} strokeWidth={1.5} />}
           </button>
         </div>
-        <p className="text-[13px] text-black/40 dark:text-white/40 text-center font-medium max-w-[260px] leading-relaxed">
-          {isProcessing ? "Processing..." : isRecording ? "Tap to stop recording" : "Tap to speak — \"chai 200\" or \"gave Rahul 500\""}
+        <p className="text-xs sm:text-sm text-white/50 text-center font-medium max-w-xs leading-relaxed">
+          {isProcessing ? "Processing audio with AI..." : isRecording ? "Recording... Click to stop" : "Tap to speak — e.g. \"Lunch 450\" or \"Paid gym 2000\""}
         </p>
 
-        <div className="w-full max-w-md space-y-4">
-          <div className="flex items-center gap-4"><div className="flex-1 h-px bg-black/[0.08] dark:bg-white/[0.08]" /><span className="text-[11px] font-semibold uppercase tracking-wider text-black/30 dark:text-white/30">OR</span><div className="flex-1 h-px bg-black/[0.08] dark:bg-white/[0.08]" /></div>
+        <div className="w-full space-y-4">
+          <div className="flex items-center gap-4"><div className="flex-1 h-px bg-white/10" /><span className="text-[11px] font-semibold uppercase tracking-wider text-white/30">OR</span><div className="flex-1 h-px bg-white/10" /></div>
 
           {/* Text input */}
           <form onSubmit={handleTextSubmit} className="relative">

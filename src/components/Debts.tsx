@@ -41,40 +41,46 @@ export const Debts = () => {
   const inputCls = "w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none focus:ring-2 focus:ring-black/15 dark:focus:ring-white/15 placeholder:text-black/25 dark:placeholder:text-white/25";
 
   return (
-    <div className="px-5 pt-12 pb-4 space-y-5">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Debts</h1>
-        <p className="text-[12px] font-medium text-black/40 dark:text-white/40 mt-0.5">Track who owes you and who you owe</p>
+    <div className="space-y-6 text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Debts & IOUs</h1>
+          <p className="text-xs sm:text-sm text-white/50 mt-1">Track money you lent and money you borrowed</p>
+        </div>
+        <button
+          onClick={() => setShowAdd(!showAdd)}
+          className="px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95 shadow-sm w-fit"
+        >
+          {showAdd ? <X size={15} /> : <UserPlus size={15} />}{showAdd ? 'Cancel' : 'Add New Debt'}
+        </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-          <p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">You are owed</p>
-          <p className="text-xl font-bold text-green-600 dark:text-green-400 mt-1">₹{totalLent.toLocaleString()}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="glass-card p-5 rounded-2xl border border-white/10">
+          <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total You Are Owed (Lent)</p>
+          <p className="text-2xl sm:text-3xl font-extrabold text-green-400 mt-1.5">₹{totalLent.toLocaleString()}</p>
         </div>
-        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-          <p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">You owe</p>
-          <p className="text-xl font-bold text-red-500 dark:text-red-400 mt-1">₹{totalBorrowed.toLocaleString()}</p>
+        <div className="glass-card p-5 rounded-2xl border border-white/10">
+          <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total You Owe (Borrowed)</p>
+          <p className="text-2xl sm:text-3xl font-extrabold text-red-400 mt-1.5">₹{totalBorrowed.toLocaleString()}</p>
         </div>
       </div>
-
-      <button onClick={() => setShowAdd(!showAdd)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] py-3 rounded-xl flex items-center justify-center gap-2 text-[13px] font-semibold">
-        {showAdd ? <X size={16} /> : <UserPlus size={16} />}{showAdd ? 'Cancel' : 'Add Debt'}
-      </button>
 
       {showAdd && (
-        <form onSubmit={handleAdd} className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-4">
-          <div className="flex gap-1 p-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xl">
+        <form onSubmit={handleAdd} className="glass-card p-6 rounded-2xl border border-white/10 space-y-4 max-w-2xl mx-auto">
+          <div className="flex gap-1 p-1 bg-white/[0.06] rounded-xl">
             {(['Lent', 'Borrowed'] as const).map(t => (
-              <button key={t} type="button" onClick={() => setType(t)} className={`flex-1 py-2 rounded-lg text-[12px] font-semibold transition-all ${type === t ? 'bg-white dark:bg-neutral-800 shadow-sm text-black dark:text-white' : 'text-black/40 dark:text-white/40'}`}>
+              <button key={t} type="button" onClick={() => setType(t)} className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all ${type === t ? 'bg-white text-black shadow-sm' : 'text-white/50 hover:text-white'}`}>
                 {t === 'Lent' ? 'I Lent' : 'I Borrowed'}
               </button>
             ))}
           </div>
-          <input type="text" placeholder="Person name" value={person} onChange={e => setPerson(e.target.value)} className={inputCls} required />
-          <input type="number" placeholder="Amount (₹)" value={amount} onChange={e => setAmount(e.target.value)} className={inputCls} required />
-          <div><label className="text-[11px] font-medium text-black/40 dark:text-white/40 ml-1">Due date (optional)</label><input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className={`${inputCls} mt-1`} /></div>
-          <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-semibold text-[14px]">Save</button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input type="text" placeholder="Person name" value={person} onChange={e => setPerson(e.target.value)} className={inputCls} required />
+            <input type="number" placeholder="Amount (₹)" value={amount} onChange={e => setAmount(e.target.value)} className={inputCls} required />
+          </div>
+          <div><label className="text-xs font-medium text-white/50 ml-1">Due date (optional)</label><input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className={`${inputCls} mt-1`} /></div>
+          <button type="submit" className="w-full bg-white text-black py-3 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">Save Debt Record</button>
         </form>
       )}
 
@@ -83,7 +89,8 @@ export const Debts = () => {
         const paginatedPending = pending.slice((pendingPage - 1) * DEBTS_PER_PAGE, pendingPage * DEBTS_PER_PAGE);
         return (
         <div className="space-y-3">
-          <h3 className="text-[12px] font-bold uppercase tracking-wider text-black/40 dark:text-white/40">Pending</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-white/40">Pending ({pending.length})</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {paginatedPending.map(d => {
             const overdue = d.dueDate && isPast(parseISO(d.dueDate));
             if (editingId === d._id) return (
@@ -136,6 +143,7 @@ export const Debts = () => {
               </div>
             );
           })}
+          </div>
           {totalPendingPages > 1 && (
             <div className="flex items-center justify-between pt-2">
               <button onClick={() => setPendingPage(p => Math.max(1, p - 1))} disabled={pendingPage === 1}
@@ -153,8 +161,9 @@ export const Debts = () => {
         const totalSettledPages = Math.max(1, Math.ceil(settled.length / DEBTS_PER_PAGE));
         const paginatedSettled = settled.slice((settledPage - 1) * DEBTS_PER_PAGE, settledPage * DEBTS_PER_PAGE);
         return (
-        <div className="space-y-2 opacity-60">
-          <h3 className="text-[12px] font-bold uppercase tracking-wider text-black/40 dark:text-white/40">Settled</h3>
+        <div className="space-y-3 opacity-60">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-white/40">Settled ({settled.length})</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {paginatedSettled.map(d => (
             <div key={d._id} className="bg-black/[0.03] dark:bg-white/[0.04] px-4 py-3 rounded-xl flex justify-between items-center">
               <div><p className="text-[13px] font-semibold line-through">{d.person}</p><p className="text-[10px] text-black/35 dark:text-white/35">{d.type}</p></div>
@@ -164,6 +173,7 @@ export const Debts = () => {
               </div>
             </div>
           ))}
+          </div>
           {totalSettledPages > 1 && (
             <div className="flex items-center justify-between pt-2">
               <button onClick={() => setSettledPage(p => Math.max(1, p - 1))} disabled={settledPage === 1}

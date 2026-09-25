@@ -55,122 +55,140 @@ export const Budgets = () => {
   const savedMonthly = Number(monthlyLimit.trim() || '0');
 
   return (
-    <div className="px-5 pt-12 pb-4 space-y-5">
-      <div>
-        <p className="text-[11px] font-semibold text-black/40 dark:text-white/40 uppercase tracking-widest">{format(new Date(), 'MMMM yyyy')}</p>
-        <h1 className="text-2xl font-bold tracking-tight mt-0.5">Budgets</h1>
-      </div>
-
-      {/* Total Monthly Budget */}
-      <div className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-8 h-8 bg-black/[0.04] dark:bg-white/[0.06] rounded-lg flex items-center justify-center">
-            <Wallet size={16} className="text-black/50 dark:text-white/50" />
-          </div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-black/40 dark:text-white/40">Monthly Budget</span>
+    <div className="space-y-6 text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Monthly Budgets</h1>
+          <p className="text-xs sm:text-sm text-white/50 mt-1">Track target limits and category spending for {format(new Date(), 'MMMM yyyy')}</p>
         </div>
-        {editingMonthly ? (
-          <div className="flex gap-2">
-            <input type="number" value={monthlyLimit} onChange={e => setMonthlyLimit(e.target.value)} placeholder="Total limit (₹)" autoFocus
-              className="flex-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-2.5 text-[14px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" />
-            <button onClick={handleSaveMonthly} className="px-4 py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-xl text-[13px] font-semibold">Save</button>
-            <button
-              onClick={() => {
-                setMonthlyLimit(localStorage.getItem('monthly_budget') || '');
-                setEditingMonthly(false);
-              }}
-              className="px-3 py-2.5 text-[13px] font-semibold text-black/40 dark:text-white/40"
-            >
-              Cancel
-            </button>
-          </div>
-        ) : savedMonthly > 0 ? (
-          <div>
-            <div className="flex justify-between items-end mb-2">
-              <div>
-                <p className="text-2xl font-bold tracking-tight">₹{totalSpentAll.toLocaleString()}</p>
-                <p className="text-[12px] text-black/40 dark:text-white/40 mt-0.5">of ₹{savedMonthly.toLocaleString()} total budget</p>
-              </div>
-              <button onClick={() => { setMonthlyLimit(String(savedMonthly)); setEditingMonthly(true); }} className="text-[12px] font-semibold text-black/35 dark:text-white/35 hover:text-black dark:hover:text-white transition-colors">Edit</button>
-            </div>
-            <div className="w-full h-2.5 bg-black/[0.04] dark:bg-white/[0.06] rounded-full overflow-hidden">
-              <div className={`h-full rounded-full transition-all duration-500 ${totalSpentAll > savedMonthly ? 'bg-red-500' : totalSpentAll > savedMonthly * 0.8 ? 'bg-amber-500' : 'bg-green-500'}`}
-                style={{ width: `${Math.min((totalSpentAll / savedMonthly) * 100, 100)}%` }} />
-            </div>
-            {totalSpentAll > savedMonthly && <p className="text-[11px] text-red-500 font-semibold mt-1.5">₹{(totalSpentAll - savedMonthly).toLocaleString()} over budget</p>}
-          </div>
-        ) : (
-          <button onClick={() => setEditingMonthly(true)} className="w-full py-3 border border-dashed border-black/10 dark:border-white/10 rounded-xl text-[13px] font-medium text-black/35 dark:text-white/35">
-            Set a total monthly limit
-          </button>
-        )}
+        <button
+          onClick={() => setShowAdd(!showAdd)}
+          className="px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95 shadow-sm w-fit"
+        >
+          {showAdd ? <X size={15} /> : <Plus size={15} />}{showAdd ? 'Cancel' : 'Set Category Budget'}
+        </button>
       </div>
 
-      {currentBudgets.length > 0 && (
-        <div className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-          <div className="flex justify-between items-end mb-3">
+      {/* Top Summaries Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Total Monthly Budget */}
+        <div className="glass-card p-5 sm:p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="w-8 h-8 bg-white/[0.06] rounded-lg flex items-center justify-center">
+              <Wallet size={16} className="text-white/70" />
+            </div>
+            <span className="text-xs font-bold uppercase tracking-wider text-white/50">Overall Monthly Budget</span>
+          </div>
+          {editingMonthly ? (
+            <div className="flex gap-2">
+              <input type="number" value={monthlyLimit} onChange={e => setMonthlyLimit(e.target.value)} placeholder="Total limit (₹)" autoFocus
+                className="flex-1 bg-white/[0.06] rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none placeholder:text-white/30" />
+              <button onClick={handleSaveMonthly} className="px-4 py-2.5 bg-white text-black rounded-xl text-xs font-semibold">Save</button>
+              <button
+                onClick={() => {
+                  setMonthlyLimit(localStorage.getItem('monthly_budget') || '');
+                  setEditingMonthly(false);
+                }}
+                className="px-3 py-2.5 text-xs font-semibold text-white/50 hover:text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : savedMonthly > 0 ? (
             <div>
-              <p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">Category Budgets</p>
-              <p className="text-2xl font-bold tracking-tight mt-0.5">₹{totalSpent.toLocaleString()}</p>
+              <div className="flex justify-between items-end mb-2">
+                <div>
+                  <p className="text-2xl sm:text-3xl font-extrabold tracking-tight">₹{totalSpentAll.toLocaleString()}</p>
+                  <p className="text-xs text-white/40 mt-0.5">of ₹{savedMonthly.toLocaleString()} total target limit</p>
+                </div>
+                <button onClick={() => { setMonthlyLimit(String(savedMonthly)); setEditingMonthly(true); }} className="text-xs font-semibold text-white/40 hover:text-white transition-colors">Edit</button>
+              </div>
+              <div className="w-full h-2.5 bg-white/[0.06] rounded-full overflow-hidden">
+                <div className={`h-full rounded-full transition-all duration-500 ${totalSpentAll > savedMonthly ? 'bg-red-500' : totalSpentAll > savedMonthly * 0.8 ? 'bg-amber-500' : 'bg-lime-400'}`}
+                  style={{ width: `${Math.min((totalSpentAll / savedMonthly) * 100, 100)}%` }} />
+              </div>
+              {totalSpentAll > savedMonthly && <p className="text-xs text-red-400 font-semibold mt-1.5">₹{(totalSpentAll - savedMonthly).toLocaleString()} over budget</p>}
             </div>
-            <p className="text-[12px] font-medium text-black/40 dark:text-white/40">of ₹{totalBudget.toLocaleString()}</p>
-          </div>
-          <div className="w-full h-2 bg-black/[0.04] dark:bg-white/[0.06] rounded-full overflow-hidden">
-            <div className={`h-full rounded-full transition-all duration-500 ${totalSpent > totalBudget ? 'bg-red-500' : totalSpent > totalBudget * 0.8 ? 'bg-amber-500' : 'bg-green-500'}`}
-              style={{ width: `${Math.min((totalSpent / totalBudget) * 100, 100)}%` }} />
-          </div>
+          ) : (
+            <button onClick={() => setEditingMonthly(true)} className="w-full py-4 border border-dashed border-white/15 rounded-xl text-xs font-medium text-white/40 hover:text-white hover:border-white/30 transition-all">
+              + Set an overall monthly spending limit
+            </button>
+          )}
         </div>
-      )}
 
-      <button onClick={() => setShowAdd(!showAdd)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] py-3 rounded-xl flex items-center justify-center gap-2 text-[13px] font-semibold">
-        {showAdd ? <X size={16} /> : <Plus size={16} />}{showAdd ? 'Cancel' : 'Set Category Budget'}
-      </button>
+        {/* Category Budget Aggregation */}
+        <div className="glass-card p-5 sm:p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-end mb-3">
+              <div>
+                <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total Allocated Budgets</p>
+                <p className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">₹{totalSpent.toLocaleString()}</p>
+              </div>
+              <p className="text-xs font-medium text-white/40">Allocated: ₹{totalBudget.toLocaleString()}</p>
+            </div>
+            <div className="w-full h-2.5 bg-white/[0.06] rounded-full overflow-hidden">
+              <div className={`h-full rounded-full transition-all duration-500 ${totalSpent > totalBudget ? 'bg-red-500' : totalSpent > totalBudget * 0.8 ? 'bg-amber-500' : 'bg-lime-400'}`}
+                style={{ width: `${totalBudget > 0 ? Math.min((totalSpent / totalBudget) * 100, 100) : 0}%` }} />
+            </div>
+          </div>
+          <p className="text-xs text-white/40 mt-3">{currentBudgets.length} active category budget rules</p>
+        </div>
+      </div>
 
       {showAdd && (
-        <form onSubmit={handleAdd} className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-3">
+        <form onSubmit={handleAdd} className="glass-card p-6 rounded-2xl border border-white/10 space-y-4 max-w-2xl mx-auto">
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map(c => (
               <button key={c} type="button" onClick={() => setCategory(c)}
-                className={`px-3.5 py-2 rounded-xl text-[13px] font-semibold transition-all ${category === c ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-black/[0.04] dark:bg-white/[0.06] text-black/50 dark:text-white/50'}`}>
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${category === c ? 'bg-white text-black' : 'bg-white/[0.06] text-white/50 hover:text-white'}`}>
                 {c}
               </button>
             ))}
           </div>
-          <input type="number" placeholder="Monthly limit (₹)" value={amount} onChange={e => setAmount(e.target.value)}
-            className="w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" required />
-          <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-semibold text-[14px]">Save</button>
+          <input type="number" placeholder="Monthly limit for category (₹)" value={amount} onChange={e => setAmount(e.target.value)}
+            className="w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none placeholder:text-white/30" required />
+          <button type="submit" className="w-full bg-white text-black py-3 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">Save Category Budget</button>
         </form>
       )}
 
-      <div className="space-y-3">
-        {currentBudgets.length === 0 && !showAdd && <div className="py-10 text-center"><p className="text-[13px] text-black/30 dark:text-white/30">No category budgets set</p></div>}
-        {currentBudgets.map(b => {
-          const spent = spentByCategory[b.category] || 0;
-          const pct = b.amount > 0 ? (spent / b.amount) * 100 : 0;
-          const over = spent > b.amount;
-          const warn = pct > 80 && !over;
-          return (
-            <div key={b._id} className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-              <div className="flex justify-between items-start mb-2.5">
+      {currentBudgets.length === 0 && !showAdd ? (
+        <div className="py-12 text-center glass-card rounded-2xl p-6">
+          <p className="text-sm text-white/35 font-medium">No category budgets set yet for this month</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {currentBudgets.map(b => {
+            const spent = spentByCategory[b.category] || 0;
+            const pct = b.amount > 0 ? (spent / b.amount) * 100 : 0;
+            const over = spent > b.amount;
+            const warn = pct > 80 && !over;
+            return (
+              <div key={b._id} className="glass-card p-5 rounded-2xl border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-1.5">
-                    <h4 className="font-bold text-[14px]">{b.category}</h4>
-                    <button onClick={() => confirm('Delete this budget?', async () => { await deleteBudget(b._id); toast('Deleted'); })} className="p-1 text-black/15 dark:text-white/15 hover:text-red-500"><Trash2 size={12} /></button>
+                  <div className="flex justify-between items-start mb-2.5">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold text-sm">{b.category}</h4>
+                        <button onClick={() => confirm('Delete this budget?', async () => { await deleteBudget(b._id); toast('Deleted'); })} className="p-1 text-white/20 hover:text-red-400 transition-colors"><Trash2 size={13} /></button>
+                      </div>
+                      <p className="text-xs text-white/40 mt-1">₹{spent.toLocaleString()} <span className="text-white/25">/ ₹{b.amount.toLocaleString()}</span></p>
+                    </div>
+                    <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${over ? 'bg-red-500/20 text-red-400 border border-red-500/30' : warn ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-lime-400/20 text-lime-300 border border-lime-400/30'}`}>
+                      {over ? 'Over Budget' : `${Math.round(pct)}%`}
+                    </span>
                   </div>
-                  <p className="text-[12px] text-black/40 dark:text-white/40 mt-0.5">₹{spent.toLocaleString()} <span className="text-black/25 dark:text-white/25">/ ₹{b.amount.toLocaleString()}</span></p>
                 </div>
-                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${over ? 'bg-red-500/10 text-red-500' : warn ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-green-500/10 text-green-600 dark:text-green-400'}`}>
-                  {over ? 'Over' : `${Math.round(pct)}%`}
-                </span>
+                <div className="mt-4">
+                  <div className="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-red-500' : warn ? 'bg-amber-500' : 'bg-lime-400'}`} style={{ width: `${Math.min(pct, 100)}%` }} />
+                  </div>
+                  {over && <p className="text-xs text-red-400 font-semibold mt-1.5">₹{(spent - b.amount).toLocaleString()} exceeded</p>}
+                </div>
               </div>
-              <div className="w-full h-1.5 bg-black/[0.04] dark:bg-white/[0.06] rounded-full overflow-hidden">
-                <div className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-red-500' : warn ? 'bg-amber-500' : 'bg-green-500'}`} style={{ width: `${Math.min(pct, 100)}%` }} />
-              </div>
-              {over && <p className="text-[11px] text-red-500 font-semibold mt-1.5">₹{(spent - b.amount).toLocaleString()} over</p>}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

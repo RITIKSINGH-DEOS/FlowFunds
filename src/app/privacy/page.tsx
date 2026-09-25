@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-      <div className="max-w-lg mx-auto px-5 py-12 space-y-8">
+      <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
         <div>
           <Link href="/" className="text-[12px] font-semibold text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors">&larr; Back to app</Link>
           <h1 className="text-2xl font-bold tracking-tight mt-4">Privacy Policy</h1>

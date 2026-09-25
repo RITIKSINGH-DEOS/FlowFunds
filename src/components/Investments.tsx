@@ -19,7 +19,7 @@ export const Investments = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
   const [invPage, setInvPage] = useState(1);
-  const INV_PER_PAGE = 10;
+  const INV_PER_PAGE = 12;
 
   const port = useMemo(() => {
     const ti = investments.reduce((s, i) => s + i.investedAmount, 0);
@@ -42,99 +42,125 @@ export const Investments = () => {
     setEditingId(null); setEditValue(''); toast('Updated');
   };
 
+  const inputCls = "w-full bg-white/[0.06] rounded-xl px-4 py-3 text-sm font-medium focus:outline-none placeholder:text-white/30";
+
   return (
-    <div className="px-5 pt-12 pb-4 space-y-5">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Investments</h1>
-        <p className="text-[12px] font-medium text-black/40 dark:text-white/40 mt-0.5">Track your portfolio</p>
+    <div className="space-y-6 text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Investments & Portfolio</h1>
+          <p className="text-xs sm:text-sm text-white/50 mt-1">Track your assets, market value, and returns</p>
+        </div>
+        <button
+          onClick={() => setShowAdd(!showAdd)}
+          className="px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95 shadow-sm w-fit"
+        >
+          {showAdd ? <X size={15} /> : <Plus size={15} />}{showAdd ? 'Cancel' : 'Add Investment'}
+        </button>
       </div>
 
       {investments.length > 0 && (
-        <div className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-          <p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">Portfolio Value</p>
-          <p className="text-3xl font-bold tracking-tight mt-1">₹{port.tc.toLocaleString()}</p>
-          <div className="flex items-center gap-1.5 mt-1.5">
-            {port.ret >= 0 ? <TrendingUp size={14} className="text-green-500" /> : <TrendingDown size={14} className="text-red-500" />}
-            <span className={`text-[12px] font-bold ${port.ret >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
-              {port.ret >= 0 ? '+' : ''}₹{port.ret.toLocaleString()} ({port.pct >= 0 ? '+' : ''}{port.pct.toFixed(1)}%)
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 mt-4 pt-3 border-t border-black/[0.04] dark:border-white/[0.06]">
-            <div><p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">Invested</p><p className="text-[15px] font-bold mt-0.5">₹{port.ti.toLocaleString()}</p></div>
-            <div><p className="text-[10px] font-semibold text-black/35 dark:text-white/35 uppercase tracking-wider">Returns</p><p className={`text-[15px] font-bold mt-0.5 ${port.ret >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{port.ret >= 0 ? '+' : ''}₹{port.ret.toLocaleString()}</p></div>
+        <div className="glass-card p-6 rounded-2xl border border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total Portfolio Value</p>
+              <p className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-1.5">₹{port.tc.toLocaleString()}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total Invested</p>
+              <p className="text-2xl sm:text-3xl font-bold tracking-tight mt-1.5 text-white/80">₹{port.ti.toLocaleString()}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white/50 uppercase tracking-wider">Total Returns</p>
+              <div className="flex items-center gap-2 mt-1.5">
+                {port.ret >= 0 ? <TrendingUp size={20} className="text-green-400" /> : <TrendingDown size={20} className="text-red-400" />}
+                <p className={`text-2xl sm:text-3xl font-extrabold ${port.ret >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {port.ret >= 0 ? '+' : ''}₹{port.ret.toLocaleString()} ({port.pct >= 0 ? '+' : ''}{port.pct.toFixed(1)}%)
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      <button onClick={() => setShowAdd(!showAdd)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] py-3 rounded-xl flex items-center justify-center gap-2 text-[13px] font-semibold">
-        {showAdd ? <X size={16} /> : <Plus size={16} />}{showAdd ? 'Cancel' : 'Add Investment'}
-      </button>
-
       {showAdd && (
-        <form onSubmit={handleAdd} className="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-4">
-          <input type="text" placeholder="Investment name" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" required />
-          <select value={type} onChange={e => setType(e.target.value)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none appearance-none select-styled">
-            {TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-          <input type="number" placeholder="Amount invested (₹)" value={investedAmount} onChange={e => setInvestedAmount(e.target.value)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" required />
-          <input type="number" placeholder="Current value (₹) — optional" value={currentValue} onChange={e => setCurrentValue(e.target.value)} className="w-full bg-black/[0.04] dark:bg-white/[0.06] rounded-xl px-4 py-3 text-[14px] font-medium focus:outline-none placeholder:text-black/25 dark:placeholder:text-white/25" />
-          <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-semibold text-[14px]">Save</button>
+        <form onSubmit={handleAdd} className="glass-card p-6 rounded-2xl border border-white/10 space-y-4 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input type="text" placeholder="Investment name (e.g. Nifty 50 Index)" value={name} onChange={e => setName(e.target.value)} className={inputCls} required />
+            <select value={type} onChange={e => setType(e.target.value)} className={`${inputCls} appearance-none select-styled`}>
+              {TYPES.map(t => <option key={t} value={t} className="bg-slate-900 text-white">{t}</option>)}
+            </select>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input type="number" placeholder="Amount invested (₹)" value={investedAmount} onChange={e => setInvestedAmount(e.target.value)} className={inputCls} required />
+            <input type="number" placeholder="Current value (₹) — optional" value={currentValue} onChange={e => setCurrentValue(e.target.value)} className={inputCls} />
+          </div>
+          <button type="submit" className="w-full bg-white text-black py-3 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">Save Investment</button>
         </form>
       )}
 
-      <div className="space-y-3">
-        {investments.length === 0 && !showAdd && <div className="py-10 text-center"><p className="text-[13px] text-black/30 dark:text-white/30">No investments tracked yet</p></div>}
-        {(() => {
-          const totalInvPages = Math.max(1, Math.ceil(investments.length / INV_PER_PAGE));
-          const paginatedInv = investments.slice((invPage - 1) * INV_PER_PAGE, invPage * INV_PER_PAGE);
-          return (<>
-        {paginatedInv.map(inv => {
-          const ret = inv.currentValue - inv.investedAmount;
-          const pct = inv.investedAmount > 0 ? (ret / inv.investedAmount) * 100 : 0;
-          return (
-            <div key={inv._id} className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm">
-              <div className="flex justify-between items-start">
-                <div className="min-w-0">
-                  <h4 className="font-bold text-[14px] truncate">{inv.name}</h4>
-                  <p className="text-[11px] text-black/35 dark:text-white/35 mt-0.5">{inv.type} · {(() => { try { return format(new Date(inv.dateAdded), 'MMM yyyy'); } catch { return ''; } })()}</p>
-                </div>
-                <div className="text-right shrink-0 ml-3">
-                  {editingId === inv._id ? (
-                    <div className="flex items-center gap-1.5">
-                      <input type="number" value={editValue} onChange={e => setEditValue(e.target.value)} className="w-24 bg-black/[0.04] dark:bg-white/[0.06] rounded-lg px-2.5 py-1.5 text-[13px] font-bold text-right focus:outline-none" autoFocus />
-                      <button onClick={handleUpdate} className="p-1.5 text-green-500"><Check size={14} /></button>
-                      <button onClick={() => setEditingId(null)} className="p-1.5 text-black/30 dark:text-white/30"><X size={14} /></button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-1">
-                      <div>
-                        <p className="text-[15px] font-bold">₹{inv.currentValue.toLocaleString()}</p>
-                        <p className={`text-[11px] font-semibold ${ret >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{ret >= 0 ? '+' : ''}{pct.toFixed(1)}%</p>
+      {investments.length === 0 && !showAdd ? (
+        <div className="py-12 text-center glass-card rounded-2xl p-6">
+          <p className="text-sm text-white/35 font-medium">No investments tracked yet</p>
+        </div>
+      ) : (
+        <div>
+          {(() => {
+            const totalInvPages = Math.max(1, Math.ceil(investments.length / INV_PER_PAGE));
+            const paginatedInv = investments.slice((invPage - 1) * INV_PER_PAGE, invPage * INV_PER_PAGE);
+            return (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {paginatedInv.map(inv => {
+                    const ret = inv.currentValue - inv.investedAmount;
+                    const pct = inv.investedAmount > 0 ? (ret / inv.investedAmount) * 100 : 0;
+                    return (
+                      <div key={inv._id} className="glass-card p-5 rounded-2xl border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+                        <div className="flex justify-between items-start">
+                          <div className="min-w-0">
+                            <h4 className="font-bold text-sm truncate">{inv.name}</h4>
+                            <p className="text-xs text-white/40 mt-1">{inv.type} · {(() => { try { return format(new Date(inv.dateAdded), 'MMM yyyy'); } catch { return ''; } })()}</p>
+                          </div>
+                          <div className="text-right shrink-0 ml-3">
+                            {editingId === inv._id ? (
+                              <div className="flex items-center gap-1.5">
+                                <input type="number" value={editValue} onChange={e => setEditValue(e.target.value)} className="w-24 bg-white/[0.08] rounded-lg px-2.5 py-1.5 text-xs font-bold text-right focus:outline-none" autoFocus />
+                                <button onClick={handleUpdate} className="p-1.5 text-green-400 hover:text-green-300"><Check size={14} /></button>
+                                <button onClick={() => setEditingId(null)} className="p-1.5 text-white/40 hover:text-white"><X size={14} /></button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1.5">
+                                <div>
+                                  <p className="text-base font-bold">₹{inv.currentValue.toLocaleString()}</p>
+                                  <p className={`text-xs font-semibold ${ret >= 0 ? 'text-green-400' : 'text-red-400'}`}>{ret >= 0 ? '+' : ''}{pct.toFixed(1)}%</p>
+                                </div>
+                                <button onClick={() => { setEditingId(inv._id); setEditValue(String(inv.currentValue)); }} className="p-1.5 text-white/30 hover:text-white transition-colors"><Pencil size={13} /></button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-white/5 flex justify-between items-center text-xs text-white/40">
+                          <span>Invested: ₹{inv.investedAmount.toLocaleString()}</span>
+                          <button onClick={() => confirm('Delete this investment?', async () => { await deleteInvestment(inv._id); toast('Deleted'); })} className="p-1 text-white/20 hover:text-red-400 transition-colors"><Trash2 size={13} /></button>
+                        </div>
                       </div>
-                      <button onClick={() => { setEditingId(inv._id); setEditValue(String(inv.currentValue)); }} className="p-1.5 text-black/20 dark:text-white/20 hover:text-black dark:hover:text-white"><Pencil size={12} /></button>
-                    </div>
-                  )}
+                    );
+                  })}
                 </div>
+                {totalInvPages > 1 && (
+                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                    <button onClick={() => setInvPage(p => Math.max(1, p - 1))} disabled={invPage === 1}
+                      className="p-2 rounded-lg bg-white/[0.06] hover:bg-white/10 disabled:opacity-30 transition-all"><ChevronLeft size={16} /></button>
+                    <span className="text-xs font-semibold text-white/50">{invPage} of {totalInvPages}</span>
+                    <button onClick={() => setInvPage(p => Math.min(totalInvPages, p + 1))} disabled={invPage === totalInvPages}
+                      className="p-2 rounded-lg bg-white/[0.06] hover:bg-white/10 disabled:opacity-30 transition-all"><ChevronRight size={16} /></button>
+                  </div>
+                )}
               </div>
-              <div className="mt-3 pt-2.5 border-t border-black/[0.04] dark:border-white/[0.06] flex justify-between items-center text-[11px] text-black/35 dark:text-white/35">
-                <span>Invested: ₹{inv.investedAmount.toLocaleString()}</span>
-                <button onClick={() => confirm('Delete this investment?', async () => { await deleteInvestment(inv._id); toast('Deleted'); })} className="p-1 text-black/15 dark:text-white/15 hover:text-red-500"><Trash2 size={12} /></button>
-              </div>
-            </div>
-          );
-        })}
-        {totalInvPages > 1 && (
-          <div className="flex items-center justify-between pt-2">
-            <button onClick={() => setInvPage(p => Math.max(1, p - 1))} disabled={invPage === 1}
-              className="p-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.06] disabled:opacity-30 transition-opacity"><ChevronLeft size={16} /></button>
-            <span className="text-[12px] font-semibold text-black/40 dark:text-white/40">{invPage} / {totalInvPages}</span>
-            <button onClick={() => setInvPage(p => Math.min(totalInvPages, p + 1))} disabled={invPage === totalInvPages}
-              className="p-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.06] disabled:opacity-30 transition-opacity"><ChevronRight size={16} /></button>
-          </div>
-        )}
-        </>);
-        })()}
-      </div>
+            );
+          })()}
+        </div>
+      )}
     </div>
   );
 };
