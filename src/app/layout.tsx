@@ -26,12 +26,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{ backgroundColor: '#0b071a', color: '#f5f7ff' }} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/icon.svg" />
       </head>
-      <body>
+      <body style={{ backgroundColor: '#0b071a', color: '#f5f7ff', minHeight: '100vh', margin: 0 }}>
         <script
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.classList.add('dark');localStorage.setItem('theme','dark');`,
