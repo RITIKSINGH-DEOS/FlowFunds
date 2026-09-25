@@ -33,9 +33,22 @@ export default function LoginPage() {
         <p className="text-[13px] text-white/60 mb-8 max-w-[280px] leading-relaxed">Sign in to sync securely across devices.</p>
         <button
           onClick={() => signIn('google', { callbackUrl: '/', prompt: 'select_account' })}
-          className="w-full max-w-sm bg-gradient-to-r from-lime-400 to-lime-300 text-black py-3.5 rounded-xl font-semibold text-[15px]"
+          className="w-full max-w-sm bg-gradient-to-r from-lime-400 to-lime-300 hover:from-lime-300 hover:to-lime-200 text-black py-3.5 rounded-xl font-semibold text-[15px] transition-all active:scale-[0.98] shadow-md shadow-lime-950/20"
         >
           Sign in with Google
+        </button>
+
+        <div className="w-full max-w-sm flex items-center my-4">
+          <div className="flex-1 border-t border-white/10" />
+          <span className="px-3 text-[11px] text-white/40 uppercase tracking-wider font-semibold">or</span>
+          <div className="flex-1 border-t border-white/10" />
+        </div>
+
+        <button
+          onClick={() => signIn('demo-login', { callbackUrl: '/' })}
+          className="w-full max-w-sm bg-white/10 hover:bg-white/15 text-white py-3.5 rounded-xl font-semibold text-[14px] transition-all active:scale-[0.98] border border-white/10"
+        >
+          Continue with Demo Account
         </button>
 
         <div className="w-full max-w-sm mt-8 space-y-3 text-left">
